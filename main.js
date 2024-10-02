@@ -16,7 +16,7 @@ class Car {
     }
 }
 
-const addCar = (e) => {
+const addCar = (e) => {  // addCar function extract data from form, after    that making object to newCar then reset the form then push the data into the array //
     e.preventDefault();
 
     const license = document.querySelector('#license').value.trim();
@@ -34,7 +34,7 @@ const addCar = (e) => {
     displayTable();
 }
 
-const displayTable = () => {
+const displayTable = () => {   // display table create rows on the table and put data on the rows from cars array //
     const table = document.querySelector('#carsTable');
 
     table.innerHTML = table.rows[0].innerHTML;
@@ -49,7 +49,7 @@ const displayTable = () => {
     })
 }
 
-const searchCar = (e) => {
+const searchCar = (e) => {  // searchCar display the car details if I write right car license number on input box, if I write wrong then it shows no car found //
     e.preventDefault();
     const searchInput = document.querySelector('#search').value;
     const foundCar = cars.find(car => car.license.toLowerCase() === searchInput.toLowerCase());
