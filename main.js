@@ -30,10 +30,10 @@ class Car {
 
 }
 
-const displayMessage = (message, type = "success") => {
-    const messageElement = document.querySelector("#message");
-    messageElement.textContent = message;
-    messageElement.className = type;
+const displayMessage = (message, type = "success") => {  // display the message 
+    const messageElement = document.querySelector("#message");  // initialize dom object of message
+    messageElement.textContent = message;  // assign message data into the messageElement
+    messageElement.className = type;        
     setTimeout(() => {
         messageElement.textContent = "";
         messageElement.className = "";
@@ -70,18 +70,18 @@ const addCar = (e) => {
         addCarForm.reset();
         cars.push(newCar);
 
-        localStorage.setItem('cars', JSON.stringify(cars));
+        localStorage.setItem('cars', JSON.stringify(cars));  //saving cars in localStorage with cars kry
 
         displayTable();
-        displayMessage("Car added successfully!");
+        displayMessage("Car added successfully!");  
 
     } catch (error) {
         displayMessage(error.message, "error");
     }
 };
 
-const loadCarsFromLocalStorage = () => {
-    const storedCars = localStorage.getItem('cars');
+const loadCarsFromLocalStorage = () => {  //
+    const storedCars = localStorage.getItem('cars');  //getting data from localstorage with cars key
     if (storedCars) {
         const parsedCars = JSON.parse(storedCars);
         parsedCars.forEach(carData => {
@@ -114,19 +114,19 @@ const displayTable = () => {
             : "No Discount";
         row.insertCell(-1).textContent = discountedPrice;
 
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
+        const deleteButton = document.createElement("button");  // intialize deleteButton dom object
+        deleteButton.textContent = "Delete";  
         deleteButton.classList.add("delete");
         deleteButton.addEventListener("click", () => deleteCar(index));
         row.insertCell(-1).appendChild(deleteButton);
     });
 };
 
-const deleteCar = (index) => {
+const deleteCar = (index) => {  //delete row 
     cars.splice(index, 1);
-    localStorage.setItem('cars', JSON.stringify(cars));
-    displayTable();
-    displayMessage("Car deleted successfully!");
+    localStorage.setItem('cars', JSON.stringify(cars));  // deleting data from localStorage
+    displayTable();  //display the table after delete
+    displayMessage("Car deleted successfully!"); 
 };
 
 
@@ -159,6 +159,6 @@ const searchCar = (e) => {
 
 addCarForm.addEventListener("submit", addCar);
 searchCarForm.addEventListener("submit", searchCar);
-window.addEventListener('load', loadCarsFromLocalStorage);
+window.addEventListener('load', loadCarsFromLocalStorage);  //load data from localstorage
 
 
