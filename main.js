@@ -33,7 +33,7 @@ class Car {
 }
 
 const addCar = (e) => {
-    e.preventDefault();   // used preventDefault to stop behavior of default behave of form submit
+    e.preventDefault();   // used preventDefault to stop default behavior of form refreshing the page
 
     try {   //used try catch for handing any errors
         const license = document.querySelector("#license").value.trim();  //used trim method if by mistake user left space in the form input field
@@ -45,8 +45,8 @@ const addCar = (e) => {
         const year = parseInt(document.querySelector("#year").value.trim());
         const currentYear = new Date().getFullYear();
 
-        if (!license || !maker || !model || !owner || isNaN(price) || !color || isNaN(year)) {  // checking every fields which are manadetory to filled
-            throw new Error("All fields are required and must be valid.");  // throwing error if manadetory fields will not be filled
+        if (!license || !maker || !model || !owner || isNaN(price) || !color || isNaN(year)) {  // check every fields which are manadetory
+            throw new Error("All fields are required and must be valid.");  // throw error if manadetory fields are empty
         }
 
         if (price <= 0) {  //check price should be a positive number
@@ -57,22 +57,22 @@ const addCar = (e) => {
             throw new Error(`Year must be between 1886 and ${currentYear}.`);
         }
 
-        const newCar = new Car(license, maker, model, owner, price, color, year);  //makeing car object
+        const newCar = new Car(license, maker, model, owner, price, color, year);  //make car object
         addCarForm.reset();  //reset the form for new data to be filled
         cars.push(newCar);  // save newCar object in variable cars of type array
         displayTable(); // display all the cars data in the table
 
     } catch (error) {  // if try block throws error due to field validation then catch block will catch error
-        alert(error.message); //this will show the error message as a popup to the user
+        alert(error.message); // this will show the error message as a popup to the user
     }
 };
 
-const displayTable = () => {  // function for initialising table row
-    const table = document.querySelector("#carsTable");  //make DOM object of cars table
+const displayTable = () => {  // function for displaying cars data in the table
+    const table = document.querySelector("#carsTable");  // make DOM object of cars table
 
-    table.innerHTML = table.rows[0].innerHTML;   // I don't understand this line, I think, this is unnessesry
+    table.innerHTML = table.rows[0].innerHTML;   // I think, this line is unnessesry
 
-    cars.forEach((car) => {  //loop the cars array
+    cars.forEach((car) => {  //iterate car in the cars array
         const row = table.insertRow(-1); //insert table row
 
         const { license, maker, model, owner, year, color, price } = car; //initialising car parameters to use as a variable
@@ -96,11 +96,11 @@ const displayTable = () => {  // function for initialising table row
 const searchCar = (e) => {  
     e.preventDefault();
     const searchInput = document.querySelector("#search").value.trim();  //getting value of search input field
-    const foundCar = cars.find((car) => car.license.toLowerCase() === searchInput.toLowerCase());  // used find method to pass the one object at a time and checking in every object that car license number mathes to searchinput number
+    const foundCar = cars.find((car) => car.license.toLowerCase() === searchInput.toLowerCase());  // used find method to pass the one object at a time and checking in every object that car license number matches to searchinput number
 
     const searchResult = document.querySelector("#searchResult");
 
-    if (foundCar) {  //check foundCar is true
+    if (foundCar) {  //check foundCar has any value
         const originalPrice = foundCar.price.toFixed(2);  //toFixed method keeps 2 digits after decimal 
         const discountedPrice = foundCar.isEligibleForDiscount()  //used ternary operator to check if car is getting discount or not
             ? `$${foundCar.getDiscountedPrice().toFixed(2)}`
@@ -114,9 +114,9 @@ const searchCar = (e) => {
             <p>Original Price: $${originalPrice}</p>
             <p>Discounted Price: ${discountedPrice}</p>
             <p>Color: ${foundCar.color}</p>  
-        `;  //displayed text in search result dom if license number is found available in any car object in cars array
+        `;  //displayed text in search result dom if license number matches any car license in cars array
     } else {
-        searchResult.innerHTML = "<p>No car found with the given license plate.</p>";  // if license number will not be available in the search result dom then this text will shown
+        searchResult.innerHTML = "<p>No car found with the given license plate.</p>";  // if license number will not be available in the cars array then this text will shown
     }
 };
 
