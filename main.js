@@ -70,7 +70,7 @@ const addCar = (e) => {
 const displayTable = () => {  // function for initialising table row
     const table = document.querySelector("#carsTable");  //make DOM object of cars table
 
-    table.innerHTML = table.rows[0].innerHTML; 
+    table.innerHTML = table.rows[0].innerHTML;   // I don't understand this line, I think, this is unnessesry
 
     cars.forEach((car) => {  //loop the cars array
         const row = table.insertRow(-1); //insert table row
@@ -114,9 +114,9 @@ const searchCar = (e) => {
             <p>Original Price: $${originalPrice}</p>
             <p>Discounted Price: ${discountedPrice}</p>
             <p>Color: ${foundCar.color}</p>  
-        `;  //displayed the text in search field if license number is available in the table
+        `;  //displayed text in search result dom if license number is found available in any car object in cars array
     } else {
-        searchResult.innerHTML = "<p>No car found with the given license plate.</p>";  // if license number will not found in the search field then this text will shown
+        searchResult.innerHTML = "<p>No car found with the given license plate.</p>";  // if license number will not be available in the search result dom then this text will shown
     }
 };
 
