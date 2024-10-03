@@ -17,25 +17,26 @@ class Car {
     }
 
     getCarAge() {
-        const currentYear = new Date().getFullYear();
-        return currentYear - this.year;
+        const currentYear = new Date().getFullYear(); // Initiallising current year
+        return currentYear - this.year;  // calculate car age 
     }
 
-    getDiscountedPrice() {
-        return this.getCarAge() > 10 ? this.price * 0.85 : this.price;
+    getDiscountedPrice() {  // getting car discounted price if car is more than 10 years old
+        return this.getCarAge() > 10 ? this.price * 0.85 : this.price; //used ternary opreator to check if car is older than 10 years
+        // return this.isEligibleForDiscount() ? this.price * 0.85 : this.price;
     }
 
-    isEligibleForDiscount() {
-        return this.getCarAge() > 10;
+    isEligibleForDiscount() {  
+        return this.getCarAge() > 10; // checking car is older than 10 years
     }
 
 }
 
 const addCar = (e) => {
-    e.preventDefault();
+    e.preventDefault();   // used preventDefault to stop behavior of default behave of form submit
 
-    try {
-        const license = document.querySelector("#license").value.trim();
+    try {   //used try catch for handing any errors
+        const license = document.querySelector("#license").value.trim();  //used trim method if by mistake user left space in the form input field
         const maker = document.querySelector("#maker").value.trim();
         const model = document.querySelector("#model").value.trim();
         const owner = document.querySelector("#owner").value.trim();
@@ -44,37 +45,37 @@ const addCar = (e) => {
         const year = parseInt(document.querySelector("#year").value.trim());
         const currentYear = new Date().getFullYear();
 
-        if (!license || !maker || !model || !owner || isNaN(price) || !color || isNaN(year)) {
-            throw new Error("All fields are required and must be valid.");
+        if (!license || !maker || !model || !owner || isNaN(price) || !color || isNaN(year)) {  // checking every fields which are manadetory to filled
+            throw new Error("All fields are required and must be valid.");  // throwing error if manadetory fields will not be filled
         }
 
-        if (price <= 0) {
-            throw new Error("Price must be a positive number.");
+        if (price <= 0) {  //check price should be a positive number
+            throw new Error("Price must be a positive number.");  
         }
 
-        if (year < 1886 || year > currentYear) {
+        if (year < 1886 || year > currentYear) {  // check year value should be between 1886 to current year
             throw new Error(`Year must be between 1886 and ${currentYear}.`);
         }
 
-        const newCar = new Car(license, maker, model, owner, price, color, year);
-        addCarForm.reset();
-        cars.push(newCar);
-        displayTable();
+        const newCar = new Car(license, maker, model, owner, price, color, year);  //makeing car object
+        addCarForm.reset();  //reset the form for new data to be filled
+        cars.push(newCar);  // save newCar object in variable cars of type array
+        displayTable(); // display all the cars data in the table
 
-    } catch (error) {
-        alert(error.message);
+    } catch (error) {  // if try block throws error due to field validation then catch block will catch error
+        alert(error.message); //this will show the error message as a popup to the user
     }
 };
 
-const displayTable = () => {
-    const table = document.querySelector("#carsTable");
+const displayTable = () => {  // function for initialising table row
+    const table = document.querySelector("#carsTable");  //make DOM object of cars table
 
-    table.innerHTML = table.rows[0].innerHTML;
+    table.innerHTML = table.rows[0].innerHTML; 
 
-    cars.forEach((car) => {
-        const row = table.insertRow(-1);
+    cars.forEach((car) => {  //loop the cars array
+        const row = table.insertRow(-1); //insert table row
 
-        const { license, maker, model, owner, year, color, price } = car;
+        const { license, maker, model, owner, year, color, price } = car; //initialising car parameters to use as a variable
 
         const carDetails = [license, maker, model, owner, year, color];
 
@@ -92,32 +93,32 @@ const displayTable = () => {
 };
 
 
-const searchCar = (e) => {
+const searchCar = (e) => {  
     e.preventDefault();
-    const searchInput = document.querySelector("#search").value.trim();
-    const foundCar = cars.find((car) => car.license.toLowerCase() === searchInput.toLowerCase());
+    const searchInput = document.querySelector("#search").value.trim();  //getting value of search input field
+    const foundCar = cars.find((car) => car.license.toLowerCase() === searchInput.toLowerCase());  // used find method to pass the one object at a time and checking in every object that car license number mathes to searchinput number
 
     const searchResult = document.querySelector("#searchResult");
 
-    if (foundCar) {
-        const originalPrice = foundCar.price.toFixed(2);
-        const discountedPrice = foundCar.isEligibleForDiscount()
+    if (foundCar) {  //check foundCar is true
+        const originalPrice = foundCar.price.toFixed(2);  //toFixed method keeps 2 digits after decimal 
+        const discountedPrice = foundCar.isEligibleForDiscount()  //used ternary operator to check if car is getting discount or not
             ? `$${foundCar.getDiscountedPrice().toFixed(2)}`
             : "No Discount";
 
-        searchResult.innerHTML = `
+        searchResult.innerHTML = ` 
             <p>Maker: ${foundCar.maker}</p>
             <p>Model: ${foundCar.model}</p>
             <p>Owner: ${foundCar.owner}</p>
             <p>Year: ${foundCar.year}</p>
             <p>Original Price: $${originalPrice}</p>
             <p>Discounted Price: ${discountedPrice}</p>
-            <p>Color: ${foundCar.color}</p>
-        `;
+            <p>Color: ${foundCar.color}</p>  
+        `;  //displayed the text in search field if license number is available in the table
     } else {
-        searchResult.innerHTML = "<p>No car found with the given license plate.</p>";
+        searchResult.innerHTML = "<p>No car found with the given license plate.</p>";  // if license number will not found in the search field then this text will shown
     }
 };
 
-addCarForm.addEventListener("submit", addCar);
+addCarForm.addEventListener("submit", addCar);  
 searchCarForm.addEventListener("submit", searchCar);
